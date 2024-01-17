@@ -1,8 +1,5 @@
-from typing import Union
-
 import strawberry
 
-from models.user import User
 from schema.types import CreateUserInput
 
 
@@ -14,8 +11,10 @@ class CreateUserMutationType:
 
 @strawberry.mutation
 async def createUser(input: CreateUserInput) -> CreateUserMutationType:
+    print("{:=^40}".format("Функция вызвана"))
     try:
         user = await User.create(**input)
+        print(user)
         return CreateUserMutationType(data=user, error=None)
     except Exception as e:
         return CreateUserMutationType(data=None, error=f"Error: {str(e)}")
