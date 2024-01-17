@@ -1,16 +1,17 @@
-from tortoise import fields
-from tortoise.models import Model
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String
+
+Base = declarative_base()
 
 
-class User(Model):
-    id = fields.UUIDField(pk=True)
-    email = fields.CharField(max_length=200, unique=True)
-    username = fields.CharField(max_length=200, unique=True, index=True)
-    password_hash = fields.CharField(max_length=200)
+# Модель SQLAlchemy
+class User(Base):
+    __tablename__ = "users"
 
-    class Meta:
-        table = "user"  # Имя таблицы
-        default_connection = "default"  # Подключение к базе данных по умолчанию
+    id = Column(String, primary_key=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True)
+    password_hash = Column(String)
 
 
 class UserModelInput:

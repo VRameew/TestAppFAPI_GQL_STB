@@ -4,6 +4,8 @@ FROM postgres:13-alpine AS postgres
 # Фаза 2: Базовый образ с FastAPI и Strawberry
 FROM python:3.9-slim-buster AS app
 
+RUN apt update && apt install -y gcc cmake libpq-dev python-dev
+
 # Установка зависимостей для FastAPI и Strawberry
 WORKDIR /app
 COPY requirements.txt .
