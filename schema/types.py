@@ -14,6 +14,12 @@ class ErrorMessage:
     message: str
 
 
+@strawberry.type
+class UserErrorMessage:
+    data: User
+    error: str
+
+
 @strawberry.input
 class CreateUserInput:
     username: str
@@ -21,17 +27,10 @@ class CreateUserInput:
     password: str
 
 
-@strawberry.input
-class UpdateUserInput:
-    id: strawberry.ID
-    username: str
-    email: str
-    password: str
-
-
-@strawberry.input
-class DeleteUserInput:
-    id: strawberry.ID
+@strawberry.type
+class CreateUserMutationType:
+    data: User
+    error: str
 
 
 @strawberry.type
@@ -48,15 +47,7 @@ class Query:
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def create_user(self, input: CreateUserInput) -> Union[User, ErrorMessage]:
-        pass
-
-    @strawberry.mutation
-    async def update_user(self, input: UpdateUserInput) -> Union[User, ErrorMessage]:
-        pass
-
-    @strawberry.mutation
-    async def delete_user(self, input: DeleteUserInput) -> Union[ErrorMessage, None]:
+    async def createUser(self, input: CreateUserInput) -> CreateUserMutationType:
         pass
 
 

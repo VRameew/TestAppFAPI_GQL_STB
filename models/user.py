@@ -8,6 +8,10 @@ class User(Model):
     username = fields.CharField(max_length=200, unique=True, index=True)
     password_hash = fields.CharField(max_length=200)
 
+    class Meta:
+        table = "user"  # Имя таблицы
+        default_connection = "default"  # Подключение к базе данных по умолчанию
+
 
 class UserModelInput:
     username: str
