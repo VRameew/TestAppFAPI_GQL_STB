@@ -8,7 +8,6 @@ class UserType:
     id: str
     username: str
     email: str
-    password_hash: str
 
 
 @strawberry.type
@@ -38,15 +37,10 @@ class Mutation:
     @strawberry.mutation
     async def createUser(self, username: str, email: str, password_hash: str) -> CreateUserMutationType:
         try:
-            print("{:=^40}".format("try"))
             user = User.create(cls=User, username=username,
                                email=email, password_hash=password_hash)
-            print(user)
-            print("{:=^40}".format("try end"))
             return CreateUserMutationType(data=user, error='None')
         except Exception as e:
-            print("{:=^40}".format("Exception"))
-            print(e)
             return CreateUserMutationType(data=None, error=f"Error: {str(e)}")
 
 

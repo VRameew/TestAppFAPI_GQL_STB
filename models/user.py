@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Column, String
 import uuid
+import bcrypt
 
 Base = declarative_base()
 # Настройка базы данных SQLAlchemy
@@ -25,6 +26,13 @@ def get_session():
         session.close()
 
 
+#Функция криптографии пароля
+def encrypt_text(text: str) -> str:
+    encoded_text = text.encode('utf-8')
+    hashed_text = bcrypt.hashpw(encoded_text, bcrypt.gensalt())
+    return hashed_text.decode('utf-8')
+
+
 # Модель SQLAlchemy
 class User(Base):
     __tablename__ = "users"
@@ -35,15 +43,10 @@ class User(Base):
     password_hash = Column(String)
 
     def create(cls, username: str, email: str, password_hash: str) -> 'User':
-        print("{:=^40}".format("session"))
+        '''Метод класса User для создания данных в базе'''
         session = get_session()
-        print(session)
-        print("{:=^40}".format("user"))
         user = cls(id=uuid.uuid4(), username=username,
-                   email=email, password_hash=password_hash)
-        print(user)
-        print("{:=^40}".format("session.add(user)"))
+                   email=email, password_hash=encrypt_text(password_hash))
         session.add(user)
-        print("{:=^40}".format("session.commit()"))
         session.commit()
         return user

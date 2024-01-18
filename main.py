@@ -6,5 +6,5 @@ from models.user import Base, engine
 
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
-#Будущий ендпоинт
+
 app.add_route("/graphql", GraphQL(schema))
