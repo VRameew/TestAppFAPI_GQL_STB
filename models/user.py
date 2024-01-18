@@ -14,19 +14,16 @@ engine = create_engine("postgresql+psycopg2://user:password@postgres:5432/db",
 Base.metadata.create_all(bind=engine)
 SessionLocal = sessionmaker(
     binds={Base: engine}, autocommit=False,
-    autoflush=False, expire_on_commit=False,)
+    autoflush=False, expire_on_commit=False, )
 
 
 # Функция для получения сессии
 def get_session():
-    try:
-        session = SessionLocal()
-        return session
-    finally:
-        session.close()
+    session = SessionLocal()
+    return session
 
 
-#Функция криптографии пароля
+# Функция криптографии пароля
 def encrypt_text(text: str) -> str:
     encoded_text = text.encode('utf-8')
     hashed_text = bcrypt.hashpw(encoded_text, bcrypt.gensalt())
@@ -49,4 +46,30 @@ class User(Base):
                    email=email, password_hash=encrypt_text(password_hash))
         session.add(user)
         session.commit()
+        session.close()
         return user
+
+    def delete(id: str) -> bool:
+        '''Метод класса User для отбора данных по id и их удаление'''
+        session = get_session()
+        user = session.query(User).get(id)
+        if user:
+            session.delete(user)
+            session.commit()
+            session.close()
+            return True
+        return False
+
+    def updete(id: str, username: str, email: str, password_hash: str) -> 'User':
+        '''Метод класса User для изменения данных в базе'''
+        session = get_session()
+        user = session.query(User).get(id)
+        if user:
+            user.username = username
+            user.email = email
+            user.password_hash = encrypt_text(password_hash)
+            session.commit()
+            session.close()
+        return user
+
+
