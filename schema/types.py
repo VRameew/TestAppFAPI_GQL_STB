@@ -1,13 +1,14 @@
 import strawberry
-from main import SessionLocal
+from models.user import User
 from typing import List, Union
 
 
 @strawberry.type
-class User:
-    id: strawberry.ID
+class UserType:
+    id: str
     username: str
     email: str
+    password_hash: str
 
 
 @strawberry.type
@@ -16,49 +17,33 @@ class ErrorMessage:
 
 
 @strawberry.type
-class UserErrorMessage:
-    data: User
-    error: str
-
-
-@strawberry.input
-class CreateUserInput:
-    username: str
-    email: str
-    password: str
-
-
-@strawberry.type
 class CreateUserMutationType:
-    data: User
+    data: UserType
     error: str
 
 
 @strawberry.type
 class Query:
     @strawberry.field
-    async def users(self) -> List[User]:
+    async def users(self) -> List[UserType]:
         pass
 
     @strawberry.field
-    async def user(self, username: str) -> Union[User, ErrorMessage]:
+    async def user(self, username: str) -> Union[UserType, ErrorMessage]:
         pass
 
 
 @strawberry.type
 class Mutation:
     @strawberry.mutation
-    async def createUser(input: CreateUserInput) -> CreateUserMutationType:
-        print("{:=^40}".format("Функция вызвана"))
+    async def createUser(self, username: str, email: str, password_hash: str) -> CreateUserMutationType:
         try:
             print("{:=^40}".format("try"))
-            session = SessionLocal()
-            user = await User.create(session, **input)
-            session.commit()
-            session.close()
-            print("{:=^40}".format("second try"))
+            user = User.create(cls=User, username=username,
+                               email=email, password_hash=password_hash)
             print(user)
-            return CreateUserMutationType(data=user, error=None)
+            print("{:=^40}".format("try end"))
+            return CreateUserMutationType(data=user, error='None')
         except Exception as e:
             print("{:=^40}".format("Exception"))
             print(e)
