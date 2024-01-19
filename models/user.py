@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Column, String
+from typing import List, Optional
 import uuid
 import bcrypt
 
@@ -71,5 +72,21 @@ class User(Base):
             session.commit()
             session.close()
         return user
+
+    def listOfUsers(self) -> List['User']:
+        '''Метод класса User для получения списка всех  данных в базе'''
+        session = get_session()
+        users_obj = session.query(User).all()
+        users_list = [User(id=user.id, username=user.username, email=user.email) for user in users_obj]
+        session.close()
+        return users_list
+
+    @staticmethod
+    def userByUserName(username: str) -> Optional['User']:
+        '''Метод класса User для получения по имени пользователя данных в базе'''
+        session = get_session()
+        user_obj = session.query(User).filter_by(username=username).first()
+        session.close()
+        return user_obj
 
 

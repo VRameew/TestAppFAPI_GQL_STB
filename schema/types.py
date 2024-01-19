@@ -3,16 +3,11 @@ from models.user import User
 from typing import List, Union
 
 
-@strawberry.type
+@strawberry.type(name="UserType")
 class UserType:
     id: str
     username: str
     email: str
-
-
-@strawberry.type
-class ErrorMessage:
-    message: str
 
 
 @strawberry.type
@@ -37,15 +32,20 @@ class UpdateUserMutationType:
     error: str
 
 
+
 @strawberry.type
 class Query:
     @strawberry.field
     async def users(self) -> List[UserType]:
-        pass
+        user = User()
+        return user.listOfUsers()
 
     @strawberry.field
-    async def user(self, username: str) -> Union[UserType, ErrorMessage]:
-        pass
+    async def user(self, username: str) -> UserType:
+        user = User()
+        user_obj = user.userByUserName(username=username)
+        user_type = UserType(id=user_obj.id, username=user_obj.username, email=user_obj.email)
+        return user_type
 
 
 @strawberry.type
