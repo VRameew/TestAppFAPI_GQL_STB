@@ -6,7 +6,7 @@
 ## Примеры запросов
 
 ### Создание пользователя
-\```
+```
 mutation ($username: String!, $email: String!, $passwordHash: String!) { 
   createUser(
     username: $username, 
@@ -29,7 +29,7 @@ mutation ($username: String!, $email: String!, $passwordHash: String!) {
     "passwordHash": "2TestPassword"
   }
 }
-\```
+```
 
 ### Удаление пользователя
 \```
