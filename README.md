@@ -32,7 +32,7 @@ mutation ($username: String!, $email: String!, $passwordHash: String!) {
 ```
 
 ### Удаление пользователя
-\```
+```
 mutation ($id: String!) { 
   deleteUser(id: $id) { 
     msg 
@@ -45,10 +45,10 @@ mutation ($id: String!) {
     "id": "123456"
   }
 }
-\```
+```
 
 ### Обновление пользователя
-\```
+```
 mutation ($id: String!, $username: String!, $email: String!, $passwordHash: String!) { 
   updateUser(
     id: $id, 
@@ -73,10 +73,10 @@ mutation ($id: String!, $username: String!, $email: String!, $passwordHash: Stri
     "passwordHash": "newpasswordhash"
   }
 }
-\```
+```
 
 ### Получение списка пользователей
-\```
+```
 query { 
   users { 
     id 
@@ -84,11 +84,11 @@ query {
     email 
   } 
 }
-\```
+```
 
 ### Получение пользователя по имени пользователя
 
-\```
+```
 query GetUser($username: String!) { 
   user(username: $username) { 
     id 
@@ -102,4 +102,4 @@ query GetUser($username: String!) {
     "username": "1testuser"
   }
 }
-\```
+```
