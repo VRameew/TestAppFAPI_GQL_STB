@@ -6,8 +6,8 @@
 ## Примеры запросов
 
 ### Создание пользователя
-
-`mutation ($username: String!, $email: String!, $passwordHash: String!) { 
+\```
+mutation ($username: String!, $email: String!, $passwordHash: String!) { 
   createUser(
     username: $username, 
     email: $email, 
@@ -28,11 +28,11 @@
     "email": "2testuser@example.com",
     "passwordHash": "2TestPassword"
   }
-}`
-
+}
+\```
 
 ### Удаление пользователя
-
+\```
 mutation ($id: String!) { 
   deleteUser(id: $id) { 
     msg 
@@ -44,12 +44,12 @@ mutation ($id: String!) {
   "variables": {
     "id": "123456"
   }
-}`
-
+}
+\```
 
 ### Обновление пользователя
-
-`mutation ($id: String!, $username: String!, $email: String!, $passwordHash: String!) { 
+\```
+mutation ($id: String!, $username: String!, $email: String!, $passwordHash: String!) { 
   updateUser(
     id: $id, 
     username: $username, 
@@ -72,23 +72,24 @@ mutation ($id: String!) {
     "email": "newemail@example.com",
     "passwordHash": "newpasswordhash"
   }
-}`
-
+}
+\```
 
 ### Получение списка пользователей
-
-`query { 
+\```
+query { 
   users { 
     id 
     username 
     email 
   } 
-}`
-
+}
+\```
 
 ### Получение пользователя по имени пользователя
 
-`query GetUser($username: String!) { 
+\```
+query GetUser($username: String!) { 
   user(username: $username) { 
     id 
     username 
@@ -100,4 +101,5 @@ mutation ($id: String!) {
   "variables": {
     "username": "1testuser"
   }
-}`
+}
+\```
