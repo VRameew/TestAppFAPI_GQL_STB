@@ -28,7 +28,7 @@
     "email": "2testuser@example.com",
     "passwordHash": "2TestPassword"
   }
-}
+}`
 
 
 ### Удаление пользователя
